@@ -1,1 +1,1 @@
-# Configuracion inicial
+# boot.py -- run on boot-up
