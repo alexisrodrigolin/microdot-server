@@ -32,7 +32,7 @@ main {
     /* --- Cambios clave --- */
     /* main crecerá para ocupar todo el espacio disponible */
     flex-grow: 1; 
-    background-image: url("/img/fondo.png");  
+    background-image: url("/img/fondo.jpeg");  
     background-size: cover;        
     background-repeat: no-repeat;
     background-position: center;

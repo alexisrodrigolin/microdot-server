@@ -2,34 +2,10 @@ import network
 from time import sleep
 import machine
 import ssd1306
-from microdot import Microdot, Response
+from app import app
 
 i2c = machine.I2C(sda=machine.Pin(21), scl=machine.Pin(22))
 oled = ssd1306.SSD1306_I2C(128, 64, i2c)
-
-# app = Microdot()
-# Response.default_content_type = "text/html"
-
-
-# @app.route("/")
-# def index(request):
-#     with open("index.html") as f:
-#         return f.read()
-
-
-# @app.route("/styles/<path:path>")
-# def styles(request, path):
-#     return send_file("styles/" + path)
-
-
-# @app.route("/scripts/<path:path>")
-# def scripts(request, path):
-#     return send_file("scripts/" + path)
-
-
-# @app.route("/img/<path:path>")
-# def images(request, path):
-#     return send_file("img/" + path)
 
 def connect_to(ssid : str, passwd : str) -> None:
     """Conecta el microcontrolador a la red indicada.
@@ -65,4 +41,4 @@ oled.text("Lin-Bianco!", 1, 1)  # Posición (1,1) para mejor visualización
 oled.text("e_IP:", 1, 20)
 oled.text(ip, 1, 35)
 oled.show()
-# app.run(port=80)
+app.run(port=80)
