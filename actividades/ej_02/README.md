@@ -1,7 +1,7 @@
-# ej_02
+# ej_01
 
 ## Consigna
 
-Implementar dentro de la etiqueta `main` tres botones que, al clickearlos, puedan cambiar el estado de los LEDs 1, 2 y 3 de la placa de desarrollo. Agregar tambien un control que permita elegir el color de la tira de LED WS2818B. El control podria ser un conjunto de botones, barra deslizable, menu desplegable o cualquiera de preferencia.
+Implementar un servidor básico en Microdot que use los archivos brindados en este directorio. Dentro de la etiqueta `main` del HTML se debe colocar por lo menos una etiqueta `h1` con un texto centrado que contenga algún mensaje personalizado.
 
 Los datos en el `header` y `footer` deben completarse según corresponda.
