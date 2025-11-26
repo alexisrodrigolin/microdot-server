@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 03</title>
+    <title>Actividad 03 - Control de Temperatura</title>
     <link rel="stylesheet" href="/styles/base.css">
 </head>
 <body>
 
 <header>
-    <h1>Actividad 03</h1>
+    <h1>Actividad 03 - Control de LEDs, NeoPixel y Temperatura</h1>
 </header>
 
 <main>
@@ -59,7 +59,8 @@
                     <h2>Control de Temperatura</h2>
 
                     <!-- Slider de Setpoint -->
-                    <label for="tempSlider">Temperatura deseada (setpoint):
+                    <label for="tempSlider">
+                        Temperatura deseada (setpoint):
                         <span id="tempSetValue">15°C</span>
                     </label>
                     <input type="range" id="tempSlider" min="0" max="30" value="15">
@@ -83,51 +84,77 @@
 <footer>
     <p>Representación Frontal y Visual de Datos</p>
     <p>Computadoras de Aeronaves</p>
-    <p>Alumnos Bianco Tomas y Lin Rodrigo</p>
+    <p>Alumnos Bianco Tomás y Lin Rodrigo</p>
     <p>Prof. Carlassara Fabrizio</p>
     <p id="fecha"></p>
 </footer>
 
 <script>
-/* ---------------- LEDS (solo front-end) ---------------- */
+/* ---------------- LEDS: ahora SÍ hablan con el backend ---------------- */
 function ledControl(n, state) {
-    // Por ahora solo mostramos en la consola.
-    console.log(`LED ${n} = ${state}`);
-    // Aquí más adelante podés agregar el fetch al backend.
+    fetch(`/led/${n}/${state}`)
+        .then(resp => resp.text())
+        .then(txt => console.log(`LED ${n} -> ${state}:`, txt))
+        .catch(err => console.error('Error LED:', err));
 }
 
-/* ---------------- NEOPIXEL (solo front-end) ---------------- */
+/* ---------------- NEOPIXEL: enviar color al backend ---------------- */
 function sendColor() {
     const value = document.getElementById("color-select").value;
     const [r, g, b] = value.split(",");
 
-    // Actualizar texto visible
     document.getElementById("color-display").textContent = `rgb(${r}, ${g}, ${b})`;
 
-    console.log("Color seleccionado:", `rgb(${r}, ${g}, ${b})`);
-    // Aquí más adelante agregás el fetch al backend.
+    fetch(`/ws2818b/color?r=${r}&g=${g}&b=${b}`)
+        .then(resp => resp.text())
+        .then(txt => console.log('Color NeoPixel OK:', txt))
+        .catch(err => console.error('Error NeoPixel:', err));
 }
 
-/* ---------------- TEMPERATURA (solo front-end) ---------------- */
+/* ---------------- TEMPERATURA: slider + requests periódicos ---------------- */
 const slider = document.getElementById("tempSlider");
 const setVal = document.getElementById("tempSetValue");
 const tempReal = document.getElementById("tempReal");
 const buzzerState = document.getElementById("buzzerState");
 
-// Actualizar texto del setpoint en tiempo real
+// Mostrar valor de setpoint mientras se mueve el slider
 slider.oninput = () => {
     setVal.textContent = slider.value + "°C";
 };
 
-// De momento, cuando se suelta el slider solo mostramos algo en consola
+// Al SOLTAR el slider, enviar al servidor
 slider.onchange = () => {
     console.log("Nuevo setpoint:", slider.value + "°C");
-    // Aquí más adelante vas a mandar el valor al backend.
+    fetch(`/setpoint?value=${slider.value}`)
+        .then(resp => resp.text())
+        .then(text => {
+            console.log("Setpoint en servidor:", text);
+        })
+        .catch(err => console.error("Error setpoint:", err));
 };
 
-// Valores de ejemplo iniciales (solo visual)
-tempReal.textContent = "---";
-buzzerState.textContent = "---";
+// Función para pedir periódicamente la temperatura y estado del buzzer
+function actualizarStatus() {
+    fetch('/status')
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.temp === null) {
+                tempReal.textContent = "Sin sensor";
+            } else {
+                tempReal.textContent = data.temp.toFixed(1) + "°C";
+            }
+            buzzerState.textContent = data.buzzer ? "ACTIVADO" : "APAGADO";
+        })
+        .catch(err => {
+            console.error("Error status:", err);
+            tempReal.textContent = "---";
+            buzzerState.textContent = "Error";
+        });
+}
+
+// Llamar una vez al cargar y luego cada 2 segundos
+actualizarStatus();
+setInterval(actualizarStatus, 2000);
 
 /* ---------------- Fecha en el footer ---------------- */
 const fecha = document.getElementById("fecha");
