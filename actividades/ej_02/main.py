@@ -2,7 +2,9 @@ import network
 from time import sleep
 import machine
 import ssd1306
-from app import app   # importa el Microdot creado en app.py
+from app import app  
+import ds18x20
+import onewire
 
 i2c = machine.I2C(sda=machine.Pin(21), scl=machine.Pin(22))
 oled = ssd1306.SSD1306_I2C(128, 64, i2c)

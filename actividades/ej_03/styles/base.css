@@ -160,7 +160,7 @@ select:focus {
     width: 200px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 2px;
     margin-left: 150px;
 }
 
