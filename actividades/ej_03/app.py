@@ -1,7 +1,8 @@
 from microdot import Microdot, Response, send_file
 from machine import Pin
 from neopixel import NeoPixel
-
+import ds18x20
+import onewire
 app = Microdot()
 Response.default_content_type = 'text/html'
 
@@ -10,10 +11,11 @@ led1 = Pin(32, Pin.OUT)
 led2 = Pin(33, Pin.OUT)
 led3 = Pin(25, Pin.OUT)
 
-# Ajustá el pin y la cantidad de LEDs según tu placa
 np_pin = Pin(27, Pin.OUT)
-np = NeoPixel(np_pin, 4)   # si tenés 1 solo, poné 1
-
+np = NeoPixel(np_pin, 4)  
+buzzer_pin = Pin(14, Pin.OUT)
+sensor = ds18x20.DS18X20(onewire.OneWire(19))
+temp = 24
 # ---------- Rutas estáticas ----------
 @app.route('/')
 def index(request):
