@@ -9,7 +9,6 @@ body {
     background-color: #F2F7FF;
     color: #000080;
 
-    /* Layout principal */
     display: flex;
     flex-direction: column;
     min-height: 100%;
@@ -19,7 +18,7 @@ header {
     background-color: #176fc7;
     padding: 20px 0;
     text-align: center;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 header h1 {
@@ -28,13 +27,12 @@ header h1 {
 }
 
 main {
-    flex-grow: 1; 
-    background-image: url("/img/fondo.jpeg");  
+    flex-grow: 1;
+    background-image: url("/img/fondo.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 
-    /* Agregado para centrar el contenido interno */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -46,28 +44,12 @@ footer {
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: static;
     flex-shrink: 0;
 }
 
 footer p {
     margin: 5px 0;
 }
-
-
-
-.control-panel {
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(4px);
-    padding: 25px 30px;
-    border-radius: 18px;
-    max-width: 700px;
-    width: 100%;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-    border: 1px solid rgba(255,255,255,0.6);
-}
-
-
 
 h2 {
     font-size: 22px;
@@ -82,8 +64,6 @@ h3 {
     color: #0d3c85;
     margin-bottom: 8px;
 }
-
-
 
 button {
     background: #176fc7;
@@ -103,13 +83,6 @@ button:hover {
 button:active {
     transform: scale(0.95);
 }
-
-.led-buttons button {
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
-
 
 label {
     font-weight: bold;
@@ -139,8 +112,6 @@ select:focus {
     box-shadow: 0 0 6px rgba(23,111,199,0.4);
 }
 
-
-
 #color-display {
     font-weight: bold;
     color: #0f56a3;
@@ -151,33 +122,26 @@ select:focus {
 .layout {
     display: flex;
     gap: 40px;
-    justify-content: left;
     align-items: flex-start;
 }
 
 /* Columna izquierda */
 .left-col {
-    width: 200px;
+    width: 220px;
     display: flex;
     flex-direction: column;
     gap: 2px;
-    margin-left: 150px;
+    margin-left: 200px;
 }
 
 /* Columna derecha */
 .right-col {
     flex: 1;
-    max-width: 300px;
-    margin-left: 625px;
+    max-width: 350px;
+    margin-left: 400px;
 }
 
-/* Responsive */
-@media (max-width: 700px) {
-    .layout {
-        flex-direction: column;
-        text-align: center;
-    }
-}
+/* Contenedor general */
 .main-wrapper {
     display: flex;
     flex-direction: column;
@@ -188,4 +152,30 @@ select:focus {
     text-align: center;
     width: 100%;
     margin-bottom: 25px;
+}
+
+/* Tarjeta temperatura */
+.temp-container {
+    background: rgba(255, 255, 255, 0.82);
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#tempSlider {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .right-col {
+        max-width: none;
+    }
 }

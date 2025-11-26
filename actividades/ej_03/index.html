@@ -2,61 +2,82 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta-name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 02</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 03</title>
     <link rel="stylesheet" href="/styles/base.css">
 </head>
 <body>
 
 <header>
-    <h1>Actividad 02</h1>
+    <h1>Actividad 03</h1>
 </header>
 
 <main>
-<div class="main-wrapper">
+    <div class="main-wrapper">
 
-    <h1 class="titulo-centro">Hola mundo</h1>
+        <h1 class="titulo-centro">Hola mundo</h1>
 
-    <div class="layout">
+        <div class="layout">
 
-        <!-- Columna izquierda -->
-        <div class="left-col">
-            <h2>Control de LEDs individuales</h2>
+            <!-- Columna izquierda -->
+            <div class="left-col">
+                <h2>Control de LEDs individuales</h2>
 
-            <h3>LED 1</h3>
-            <button onclick="ledControl(1,'on')">Encender</button>
-            <button onclick="ledControl(1,'off')">Apagar</button>
+                <h3>LED 1</h3>
+                <button onclick="ledControl(1,'on')">Encender</button>
+                <button onclick="ledControl(1,'off')">Apagar</button>
 
-            <h3>LED 2</h3>
-            <button onclick="ledControl(2,'on')">Encender</button>
-            <button onclick="ledControl(2,'off')">Apagar</button>
+                <h3>LED 2</h3>
+                <button onclick="ledControl(2,'on')">Encender</button>
+                <button onclick="ledControl(2,'off')">Apagar</button>
 
-            <h3>LED 3</h3>
-            <button onclick="ledControl(3,'on')">Encender</button>
-            <button onclick="ledControl(3,'off')">Apagar</button>
+                <h3>LED 3</h3>
+                <button onclick="ledControl(3,'on')">Encender</button>
+                <button onclick="ledControl(3,'off')">Apagar</button>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="right-col">
+                <h2>Color de la tira WS2812B</h2>
+
+                <label for="color-select">Elegir color:</label>
+                <select id="color-select" onchange="sendColor()">
+                    <option value="255,0,0">Rojo</option>
+                    <option value="0,255,0">Verde</option>
+                    <option value="0,0,255">Azul</option>
+                    <option value="255,255,0">Amarillo</option>
+                    <option value="0,255,255">Cian</option>
+                    <option value="255,0,255">Magenta</option>
+                    <option value="255,255,255">Blanco</option>
+                    <option value="0,0,0">Apagar</option>
+                </select>
+
+                <p>Color actual: <span id="color-display">---</span></p>
+
+                <!-- Caja de temperatura a la derecha -->
+                <div class="temp-container">
+                    <h2>Control de Temperatura</h2>
+
+                    <!-- Slider de Setpoint -->
+                    <label for="tempSlider">Temperatura deseada (setpoint):
+                        <span id="tempSetValue">15°C</span>
+                    </label>
+                    <input type="range" id="tempSlider" min="0" max="30" value="15">
+
+                    <!-- Temperatura real -->
+                    <p>Temperatura actual del sensor:
+                        <strong id="tempReal">---</strong>
+                    </p>
+
+                    <!-- Estado del buzzer -->
+                    <p>Estado del buzzer:
+                        <strong id="buzzerState">---</strong>
+                    </p>
+                </div>
+            </div>
+
         </div>
-
-        <!-- Columna derecha -->
-        <div class="right-col">
-            <h2>Color de la tira WS2812B</h2>
-
-            <label for="color-select">Elegir color:</label>
-            <select id="color-select" onchange="sendColor()">
-                <option value="255,0,0">Rojo</option>
-                <option value="0,255,0">Verde</option>
-                <option value="0,0,255">Azul</option>
-                <option value="255,255,0">Amarillo</option>
-                <option value="0,255,255">Cian</option>
-                <option value="255,0,255">Magenta</option>
-                <option value="255,255,255">Blanco</option>
-                <option value="0,0,0">Apagar</option>
-            </select>
-
-            <p>Color actual: <span id="color-display">---</span></p>
-        </div>
-
     </div>
-</div>
 </main>
 
 <footer>
@@ -68,14 +89,14 @@
 </footer>
 
 <script>
-/* ---------------- LEDS ---------------- */
+/* ---------------- LEDS (solo front-end) ---------------- */
 function ledControl(n, state) {
-    fetch(`/led/${n}/${state}`)
-        .then(() => console.log(`LED ${n} = ${state}`))
-        .catch(err => console.error(err));
+    // Por ahora solo mostramos en la consola.
+    console.log(`LED ${n} = ${state}`);
+    // Aquí más adelante podés agregar el fetch al backend.
 }
 
-/* ---------------- NEOPIXEL ---------------- */
+/* ---------------- NEOPIXEL (solo front-end) ---------------- */
 function sendColor() {
     const value = document.getElementById("color-select").value;
     const [r, g, b] = value.split(",");
@@ -83,11 +104,35 @@ function sendColor() {
     // Actualizar texto visible
     document.getElementById("color-display").textContent = `rgb(${r}, ${g}, ${b})`;
 
-    // Enviar color al backend
-    fetch(`/ws2818b/color?r=${r}&g=${g}&b=${b}`)
-        .then(() => console.log("Color enviado"))
-        .catch(err => console.error(err));
+    console.log("Color seleccionado:", `rgb(${r}, ${g}, ${b})`);
+    // Aquí más adelante agregás el fetch al backend.
 }
+
+/* ---------------- TEMPERATURA (solo front-end) ---------------- */
+const slider = document.getElementById("tempSlider");
+const setVal = document.getElementById("tempSetValue");
+const tempReal = document.getElementById("tempReal");
+const buzzerState = document.getElementById("buzzerState");
+
+// Actualizar texto del setpoint en tiempo real
+slider.oninput = () => {
+    setVal.textContent = slider.value + "°C";
+};
+
+// De momento, cuando se suelta el slider solo mostramos algo en consola
+slider.onchange = () => {
+    console.log("Nuevo setpoint:", slider.value + "°C");
+    // Aquí más adelante vas a mandar el valor al backend.
+};
+
+// Valores de ejemplo iniciales (solo visual)
+tempReal.textContent = "---";
+buzzerState.textContent = "---";
+
+/* ---------------- Fecha en el footer ---------------- */
+const fecha = document.getElementById("fecha");
+const hoy = new Date();
+fecha.textContent = hoy.toLocaleDateString();
 </script>
 
 </body>
