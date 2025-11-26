@@ -1,17 +1,61 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 01</title>
+    <title>Actividad 02</title>
     <link rel="stylesheet" href="styles/base.css">
 </head>
 <body>
     <header>
-        <h1>Actividad 01</h1>
+        <h1>Actividad 02</h1>
     </header>
     <main>
-        <h1 style="text-align: center;">Hola mundo</h1>
+        <div class="main-wrapper">
+
+        <h1 class="titulo-centro">Hola mundo</h1>
+
+        <div class="layout">
+
+            <div class="left-col">
+                <h2>Control de LEDs individuales</h2>
+
+                <div class="led-buttons">
+                    <h3>LED 1</h3>
+                    <button onclick="ledControl(1, 'on')">Encender</button>
+                    <button onclick="ledControl(1, 'off')">Apagar</button>
+
+                    <h3>LED 2</h3>
+                    <button onclick="ledControl(2, 'on')">Encender</button>
+                    <button onclick="ledControl(2, 'off')">Apagar</button>
+
+                    <h3>LED 3</h3>
+                    <button onclick="ledControl(3, 'on')">Encender</button>
+                    <button onclick="ledControl(3, 'off')">Apagar</button>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <h2>Color de la tira WS2818B</h2>
+
+                <label for="color-select">Elegir color:</label>
+                <select id="color-select" onchange="sendColor()">
+                    <option value="255,0,0">Rojo</option>
+                    <option value="0,255,0">Verde</option>
+                    <option value="0,0,255">Azul</option>
+                    <option value="255,255,0">Amarillo</option>
+                    <option value="0,255,255">Cian</option>
+                    <option value="255,0,255">Magenta</option>
+                    <option value="255,255,255">Blanco</option>
+                    <option value="0,0,0">Apagar</option>
+                </select>
+
+                <p>Color actual: <span id="color-display">---</span></p>
+            </div>
+
+        </div>
+
+    </div>
+</main>
     </main>
     <footer>
         <p>Representación Frontal y Visual de Datos</p>
@@ -23,3 +67,15 @@
     <script src="scripts/base.js"></script>
 </body>
 </html>
+<script>
+function sendColor() {
+    const value = document.getElementById("color-select").value;
+    const [r, g, b] = value.split(",");
+
+    document.getElementById("color-display").textContent = ⁠ rgb(${r}, ${g}, ${b}) ⁠;
+
+    fetch(⁠ /ws2818b/color?r=${r}&g=${g}&b=${b} ⁠)
+        .then(r => console.log("Color actualizado"))
+        .catch(err => console.error(err));
+}
+</script>

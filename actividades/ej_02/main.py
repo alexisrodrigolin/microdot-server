@@ -12,7 +12,7 @@ led2 = machine.Pin(33, machine.Pin.OUT)
 led3 = machine.Pin(25, machine.Pin.OUT)
 
 led1.value(0)
-led2.value(0)
+led2.value(1)
 led3.value(0)
 
 np = NeoPixel(machine.Pin(27), 4)  
