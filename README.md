@@ -1,5 +1,7 @@
 # microdot-server
 Repositorio con información y ejercicios sobre implementaciones de servidores embebidos en Micropython con Microdot
+<img width="1468" height="836" alt="image" src="https://github.com/user-attachments/assets/8da48aaa-3df5-4471-962d-ab405b172002" />
+
 
 ## docs
 
